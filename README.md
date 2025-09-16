@@ -1,4 +1,4 @@
-#Project name
+# Project name
 School project for a programming exercise
-#Name
+# Name
 Martin Křivka
