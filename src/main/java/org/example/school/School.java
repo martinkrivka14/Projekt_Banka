@@ -14,4 +14,24 @@ public class School {
         this.schoolPhone = schoolPhone;
         this.balance = balance;
     }
+
+
+    public  String getSchoolName() {
+        return schoolName;
+    }
+    public String getSchoolAddress() {
+        return schoolAddress;
+    }
+
+    public String getSchoolEmail() {
+        return schoolEmail;
+    }
+
+    public String getSchoolPhone() {
+        return schoolPhone;
+    }
+
+    public float getBalance() {
+        return balance;
+    }
 }
