@@ -1,11 +1,8 @@
-package org.example.generators;
+package org.example.generator;
 
 public class BankAccountNumberGenerator {
 
-    public String bankAccountNumber;
-    public BankAccountNumberGenerator() {
-        this.bankAccountNumber = generateBankAccountNumber();
-    }
+
 
     public String generateBankAccountNumber() {
         StringBuilder generatedNumber = new StringBuilder();
@@ -16,7 +13,5 @@ public class BankAccountNumberGenerator {
         return generatedNumber.toString();
     }
 
-    public String getBankAccountNumber() {
-        return bankAccountNumber;
-    }
+
 }

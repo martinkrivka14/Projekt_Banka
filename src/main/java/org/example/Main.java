@@ -1,12 +1,11 @@
 package org.example;
 
 import org.example.factories.BankAccountFactory;
-import org.example.factories.BankAccountServiceFactory;
-import org.example.generators.BankAccountNumberGenerator;
+import org.example.factories.BankAccountService;
+//import org.example.generators.BankAccountNumberGenerator;
 import org.example.accounts.BankAccount;
 import org.example.accounts.BaseBankAccount;
 import org.example.accounts.SaveAccount;
-import org.example.accounts.StudentAccount;
 import org.example.customer.Customer;
 import org.example.school.School;
 
@@ -16,24 +15,19 @@ public class Main {
     public static void main(String[] args) {
         try{
 
-            BankAccountNumberGenerator generator1 = new BankAccountNumberGenerator();
-            BankAccountNumberGenerator generator2 = new BankAccountNumberGenerator();
-            BankAccountNumberGenerator generator3 = new BankAccountNumberGenerator();
-            BankAccountNumberGenerator generator4 = new BankAccountNumberGenerator();
-
             BankAccountFactory bankAccountFactory = new BankAccountFactory();
 
-            BankAccountServiceFactory bankAccountServiceFactory = new BankAccountServiceFactory();
+            BankAccountService bankAccountServiceFactory = new BankAccountService();
 
             Customer customer = new Customer("c123","Martin","Krivka");
             School school = new School("Delta", "Pardubice 1", "delta@gmail.com","+420 777 568 562", 200.0F);
             System.out.println(customer.getUuid() + ": " + customer.getFirstName() + ": " + customer.getLastName());
-            BaseBankAccount accounts = new BaseBankAccount("u123", generator1.getBankAccountNumber(), customer, 0.0);
+            BaseBankAccount accounts =bankAccountFactory.createBaseBankAccount("u123", customer, 0.0);
             System.out.println(accounts.getUuid() + ": " + accounts.getBalance());
 
-            BaseBankAccount BankAccount = new BankAccount("u123", generator2.getBankAccountNumber(), customer, 0.0);
-            BaseBankAccount SaveAccount = new SaveAccount("u456", generator3.getBankAccountNumber(), customer, 0.0, 0.0F);
-            BaseBankAccount StudentAccount = new StudentAccount("t325",generator4.getBankAccountNumber(), customer,0.0,0.0F, school);
+            BaseBankAccount BankAccount = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0);
+            BaseBankAccount SaveAccount = bankAccountFactory.createSaveBankAccount("u456", customer, 0.0, 0.0F);
+            BaseBankAccount StudentAccount = bankAccountFactory.createStudentAccount("t325", customer,0.0,0.0F, school);
 
 
             System.out.println("Cisla uctu");
@@ -74,7 +68,7 @@ public class Main {
         try{
             System.out.println(bankAccount.getUuid() + ": " + bankAccount.getBalance());
 
-            BankAccountServiceFactory bankAccountServiceFactory = new BankAccountServiceFactory();
+            BankAccountService bankAccountServiceFactory = new BankAccountService();
             bankAccountServiceFactory.addBalance(bankAccount,500.0);
             System.out.println(bankAccount.getUuid() + ": " + bankAccount.getBalance());
 
@@ -92,7 +86,7 @@ public class Main {
         try{
             System.out.println(saveAccount.getUuid() + ": " + saveAccount.getBalance());
 
-            BankAccountServiceFactory bankAccountServiceFactory = new BankAccountServiceFactory();
+            BankAccountService bankAccountServiceFactory = new BankAccountService();
             bankAccountServiceFactory.addBalance(saveAccount,500.0);
             System.out.println(saveAccount.getUuid() + ": " + saveAccount.getBalance());
 
@@ -103,4 +97,7 @@ public class Main {
         }
         return saveAccount;
     }
+
+
+
 }
