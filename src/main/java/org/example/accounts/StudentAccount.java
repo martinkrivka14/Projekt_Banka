@@ -16,7 +16,6 @@ public class StudentAccount extends BaseBankAccount {
         this.school = school;
     }
 
-
     public float getInterestRate() {
         if(school instanceof University){
             return 5.0F;

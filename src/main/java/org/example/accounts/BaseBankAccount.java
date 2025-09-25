@@ -4,11 +4,11 @@ import org.example.customer.Customer;
 
 public class BaseBankAccount {
 
-   private String uuid;
+   private final String uuid;
 
-   private String bankAccountNumber;
+   private final String bankAccountNumber;
 
-   private Customer customer;
+   private final Customer customer;
 
    private Double balance;
 
@@ -19,20 +19,7 @@ public class BaseBankAccount {
        this.balance = balance;
    }
 
-   public void addBalance(Double balance) {
-       this.balance += balance;
-   }
 
-   public void subratedBalance(Double balance) throws IllegalArgumentException {
-       double subractBalance = this.balance - balance;
-
-       if(subractBalance < 0) {
-           throw new IllegalArgumentException();
-       } else if(subractBalance > 0) {
-           this.balance = subractBalance;
-       }
-
-   }
    public String getUuid() {
        return uuid;
    }
@@ -50,4 +37,7 @@ public class BaseBankAccount {
    }
 
 
+    public void setBalance(double balance) {
+       this.balance = balance;
+    }
 }
