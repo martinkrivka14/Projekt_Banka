@@ -1,7 +1,7 @@
 package org.example;
 
 import org.example.factories.BankAccountFactory;
-import org.example.factories.BankAccountService;
+import org.example.services.BankAccountService;
 //import org.example.generators.BankAccountNumberGenerator;
 import org.example.accounts.BankAccount;
 import org.example.accounts.BaseBankAccount;
@@ -36,11 +36,11 @@ public class Main {
             System.out.println(StudentAccount.getUuid() + ": " + StudentAccount.getBalance() + ": " + StudentAccount.getBankAccountNumber());
 
 
-            bankAccountServiceFactory.addBalance(accounts,500.0);
-            System.out.println(accounts.getUuid() + ": " + accounts.getBalance());
+            bankAccountServiceFactory.addBalance(BankAccount,500.0);
+            System.out.println("Basic bank account balance: " + BankAccount.getUuid() + ": " + BankAccount.getBalance());
 
-            bankAccountServiceFactory.subractedBalance(accounts,200.0);
-            System.out.println(accounts.getUuid() + ": " + accounts.getBalance() + ": " + accounts.getBankAccountNumber());
+            bankAccountServiceFactory.subractedBalance(BankAccount,200.0);
+            System.out.println("Basic bank account balance: " +BankAccount.getUuid() + ": " + BankAccount.getBalance() + ": " + BankAccount.getBankAccountNumber());
 
            System.out.println("TEST BANK ACCOUNT");
            BaseBankAccount BankAccount1 = testBankAccount(customer);
@@ -56,6 +56,10 @@ public class Main {
                float interestRate = ((SaveAccount)BankAccount2).getInterestRate();
                System.out.println("Interest Rate is " + interestRate);
            }
+
+
+            bankAccountServiceFactory.addBalance(SaveAccount, 100000000.00); //catch a limit of 10 000 euros
+
 
         }catch(Exception e){
             System.out.println(e.getMessage());
