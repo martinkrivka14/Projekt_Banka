@@ -15,7 +15,6 @@ public class BankAccountFactory {
 
     public BaseBankAccount createBaseBankAccount(String uuid, Customer customer, Double balance){
         String accountNumber = bankAccountNumberGenerator.generateBankAccountNumber();
-
         return new BaseBankAccount(uuid,accountNumber,customer,balance);
     }
 
@@ -29,6 +28,10 @@ public class BankAccountFactory {
         String accountNumber = bankAccountNumberGenerator.generateBankAccountNumber();
 
         return new StudentAccount(uuid,accountNumber,customer,balance,interestRate,school);
+    }
+
+    public Customer createCustomer(String uuid, String firstName, String lastName) {
+        return new Customer(uuid, firstName, lastName);
     }
 
 }

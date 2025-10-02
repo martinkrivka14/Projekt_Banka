@@ -1,13 +1,14 @@
 package org.example;
 
-import org.example.factories.BankAccountFactory;
-import org.example.services.BankAccountService;
-//import org.example.generators.BankAccountNumberGenerator;
+
+import org.example.Serialization.BankAccountCustomerJsonSerializationService;
 import org.example.accounts.BankAccount;
 import org.example.accounts.BaseBankAccount;
 import org.example.accounts.SaveAccount;
 import org.example.customer.Customer;
+import org.example.factories.BankAccountFactory;
 import org.example.school.School;
+import org.example.services.BankAccountService;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
@@ -15,14 +16,30 @@ public class Main {
     public static void main(String[] args) {
         try{
 
+
+            //factory for bank accounts
             BankAccountFactory bankAccountFactory = new BankAccountFactory();
 
+            //service for bank accounts factories
             BankAccountService bankAccountServiceFactory = new BankAccountService();
 
-            Customer customer = new Customer("c123","Martin","Krivka");
+            //implementing customer trough factory
+            Customer customer = bankAccountFactory.createCustomer("c123","Martin","Krivka");
+
+            BankAccountCustomerJsonSerializationService service = new BankAccountCustomerJsonSerializationService();
+            String json = service.serialization(customer);
+            System.out.println("Serialized JSON:");
+            System.out.println(json);
+
+            /*Customer deserialized = (Customer) service.deserialization(json);
+            System.out.println("\nDeserialized object:");
+            System.out.println(deserialized);*/
+
+
+
             School school = new School("Delta", "Pardubice 1", "delta@gmail.com","+420 777 568 562", 200.0F);
             System.out.println(customer.getUuid() + ": " + customer.getFirstName() + ": " + customer.getLastName());
-            BaseBankAccount accounts =bankAccountFactory.createBaseBankAccount("u123", customer, 0.0);
+            BaseBankAccount accounts = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0);
             System.out.println(accounts.getUuid() + ": " + accounts.getBalance());
 
             BaseBankAccount BankAccount = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0);
@@ -94,14 +111,11 @@ public class Main {
             bankAccountServiceFactory.addBalance(saveAccount,500.0);
             System.out.println(saveAccount.getUuid() + ": " + saveAccount.getBalance());
 
-            bankAccountServiceFactory.subractedBalance(saveAccount,200.0);
+            bankAccountServiceFactory.subractedBalance(saveAccount,100.0);
             System.out.println(saveAccount.getUuid() + ": " + saveAccount.getBalance());
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
         return saveAccount;
     }
-
-
-
 }

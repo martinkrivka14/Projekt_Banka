@@ -2,11 +2,11 @@ package org.example.customer;
 
 public class Customer {
 
-    private String uuid;
+    private final String uuid;
 
-    private String firstName;
+    private final String firstName;
 
-    private String lastName;
+    private final String lastName;
 
     public Customer(String uuid, String firstName, String lastName) {
         this.uuid = uuid;
