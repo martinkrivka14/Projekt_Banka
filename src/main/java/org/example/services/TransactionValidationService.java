@@ -14,12 +14,9 @@ public class TransactionValidationService {
         }
     }
 
-    public void NegativeBalance(BaseBankAccount account, Double balance, boolean addSubtract){
-        if(balance < 0 && addSubtract){
-            throw new IllegalArgumentException("Cannot add negative balance");
-        }
-        else if(balance < 0 && !addSubtract){
-            throw new IllegalArgumentException("Cannot withdraw negative balance");
+    public void NegativeBalance(BaseBankAccount account, Double balance, String exepction){
+        if(balance < 0){
+            throw new IllegalArgumentException(exepction);
         }
     }
 
