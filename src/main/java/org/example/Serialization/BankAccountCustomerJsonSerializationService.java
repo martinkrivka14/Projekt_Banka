@@ -6,7 +6,6 @@ import org.example.customer.Customer;
 public class BankAccountCustomerJsonSerializationService implements Serialization{
 
 
-
     Gson gson = new Gson();
     BankAccountCustomerSerializationFactory bankAccountCustomerSerializationFactory = new BankAccountCustomerSerializationFactory();
 
@@ -16,7 +15,7 @@ public class BankAccountCustomerJsonSerializationService implements Serializatio
         if (!(obj instanceof Customer)) {
             throw new RuntimeException("Illegal type for serialization");
         }
-        BankAccountCustomerSerialization bankAccountOwnerSerialization = bankAccountCustomerSerializationFactory.createBankAccountCustomerSerialization((Customer) obj);
+        BankAccountCustomerSerialization bankAccountCustomerSerialization = bankAccountCustomerSerializationFactory.createBankAccountCustomerSerialization((Customer) obj);
 
         /*
           StringBuilder sb = new StringBuilder();
@@ -27,7 +26,7 @@ public class BankAccountCustomerJsonSerializationService implements Serializatio
           sb.append("}");
         */
 
-        return gson.toJson(bankAccountOwnerSerialization);
+        return gson.toJson(bankAccountCustomerSerialization);
     }
 
     @Override

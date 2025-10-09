@@ -30,8 +30,5 @@ public class BankAccountFactory {
         return new StudentAccount(uuid,accountNumber,customer,balance,interestRate,school);
     }
 
-    public Customer createCustomer(String uuid, String firstName, String lastName) {
-        return new Customer(uuid, firstName, lastName);
-    }
 
 }
