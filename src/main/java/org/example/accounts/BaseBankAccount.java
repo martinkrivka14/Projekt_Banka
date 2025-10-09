@@ -1,6 +1,8 @@
 package org.example.accounts;
 
+import org.example.cards.PaymentCard;
 import org.example.customer.Customer;
+import org.example.factories.PaymentCardFactory;
 
 public class BaseBankAccount {
 

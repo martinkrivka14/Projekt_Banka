@@ -1,8 +1,10 @@
 package org.example.factories;
 
+import org.example.accounts.BankAccount;
 import org.example.accounts.BaseBankAccount;
 import org.example.accounts.SaveAccount;
 import org.example.accounts.StudentAccount;
+import org.example.cards.PaymentCard;
 import org.example.customer.Customer;
 import org.example.generator.BankAccountNumberGenerator;
 import org.example.school.School;
@@ -13,9 +15,9 @@ public class BankAccountFactory {
 
     BankAccountNumberGenerator bankAccountNumberGenerator = new BankAccountNumberGenerator();
 
-    public BaseBankAccount createBaseBankAccount(String uuid, Customer customer, Double balance){
+    public BankAccount createBaseBankAccount(String uuid, Customer customer, Double balance, PaymentCard paymentCard) {
         String accountNumber = bankAccountNumberGenerator.generateBankAccountNumber();
-        return new BaseBankAccount(uuid,accountNumber,customer,balance);
+        return new BankAccount(uuid,accountNumber,customer,balance,paymentCard);
     }
 
     public SaveAccount createSaveBankAccount(String uuid, Customer customer, Double balance,float interestRate){
@@ -24,10 +26,10 @@ public class BankAccountFactory {
         return new SaveAccount(uuid,accountNumber,customer,balance,interestRate);
     }
 
-    public StudentAccount createStudentAccount(String uuid, Customer customer, Double balance, float interestRate, School school){
+    public StudentAccount createStudentAccount(String uuid, Customer customer, Double balance, float interestRate, School school, PaymentCard paymentCard) {
         String accountNumber = bankAccountNumberGenerator.generateBankAccountNumber();
 
-        return new StudentAccount(uuid,accountNumber,customer,balance,interestRate,school);
+        return new StudentAccount(uuid,accountNumber,customer,balance,interestRate,school,paymentCard);
     }
 
 

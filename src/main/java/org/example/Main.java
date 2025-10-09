@@ -4,11 +4,14 @@ package org.example;
 import org.example.Serialization.BankAccountCustomerJsonSerializationService;
 import org.example.Serialization.BankAccountXmlSerializationService;
 import org.example.accounts.BankAccount;
+import org.example.accounts.BankAccountWithPaymentCards;
 import org.example.accounts.BaseBankAccount;
 import org.example.accounts.SaveAccount;
+import org.example.cards.PaymentCard;
 import org.example.customer.Customer;
 import org.example.factories.BankAccountFactory;
 import org.example.factories.CustomerFactory;
+import org.example.factories.PaymentCardFactory;
 import org.example.school.School;
 import org.example.services.BankAccountService;
 
@@ -28,9 +31,23 @@ public class Main {
             BankAccountService bankAccountServiceFactory = new BankAccountService();
 
 
-
             //implementing customer trough factory
             Customer customer = customerFactory.createCustomer("c123","Martin","Krivka");
+
+
+            //factory of payment card
+
+            PaymentCardFactory paymentCardFactory = new PaymentCardFactory();
+
+            //customer name
+            String customerName = "Frantisek Jakubec";
+            PaymentCard paymentCard = paymentCardFactory.createPaymentCardFactory(customerName);
+            System.out.println("Info about payment card");
+            paymentCard.paymentCardInfo();
+
+
+
+
 
             BankAccountCustomerJsonSerializationService serviceJson = new BankAccountCustomerJsonSerializationService();
             String json = serviceJson.serialization(customer);
@@ -51,18 +68,21 @@ public class Main {
 
             School school = new School("Delta", "Pardubice 1", "delta@gmail.com","+420 777 568 562", 200.0F);
             System.out.println(customer.getUuid() + ": " + customer.getFirstName() + ": " + customer.getLastName());
-            BaseBankAccount accounts = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0);
+            BankAccountWithPaymentCards accounts = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0,paymentCard);
             System.out.println(accounts.getUuid() + ": " + accounts.getBalance());
 
-            BaseBankAccount BankAccount = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0);
+            BankAccountWithPaymentCards BankAccount = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0,paymentCard);
             BaseBankAccount SaveAccount = bankAccountFactory.createSaveBankAccount("u456", customer, 0.0, 0.0F);
-            BaseBankAccount StudentAccount = bankAccountFactory.createStudentAccount("t325", customer,0.0,0.0F, school);
+            BankAccountWithPaymentCards StudentAccount = bankAccountFactory.createStudentAccount("t325", customer,0.0,0.0F, school,paymentCard);
 
 
             System.out.println("Cisla uctu");
             System.out.println(BankAccount.getUuid() + ": " + BankAccount.getBalance() + ": " + BankAccount.getBankAccountNumber());
             System.out.println(SaveAccount.getUuid() + ": " + SaveAccount.getBalance() + ": " + SaveAccount.getBankAccountNumber());
             System.out.println(StudentAccount.getUuid() + ": " + StudentAccount.getBalance() + ": " + StudentAccount.getBankAccountNumber());
+
+            System.out.println("Payment card info");
+            accounts.getPaymentCard().paymentCardInfo();
 
 
             bankAccountServiceFactory.addBalance(BankAccount,500.0);
