@@ -32,7 +32,7 @@ public class BankAccountCustomerJsonSerializationService implements Serializatio
 
     @Override
     public Object deserialization(String str) {
-        return gson.fromJson("",  Customer.class);
+        return gson.fromJson(str,  Customer.class);
     }
 }
 
