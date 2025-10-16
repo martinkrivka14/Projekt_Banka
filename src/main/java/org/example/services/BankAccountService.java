@@ -36,11 +36,7 @@ public class BankAccountService {
 
     public void allCardsForThisBankAccount(BaseBankAccount account, HashMap<String,String> bankVCard) {
         String bankAccountNumber = account.getBankAccountNumber();
-
-        for(String cardNumber : bankVCard.keySet()){
-
-        }
-
+        
         String foundedCard =  null;
 
         System.out.println("Bank account number: " + bankAccountNumber + " has those cards");
