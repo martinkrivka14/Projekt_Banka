@@ -2,6 +2,9 @@ package org.example.services;
 
 import org.example.accounts.BaseBankAccount;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BankAccountService {
 
 
@@ -22,5 +25,21 @@ public class BankAccountService {
         transactionValidationService.NegativeBalance(account, balance,exception );
          account.setBalance(subtractBalance);
 
+    }
+
+    public void allCardsForThisBankAccount(BaseBankAccount account, HashMap<String,String> bankVCard) {
+        String bankAccountNumber = account.getBankAccountNumber();
+
+        String foundedCard =  null;
+        for (Map.Entry<String, String> entry : bankVCard.entrySet()) {
+
+            if (bankAccountNumber.equals(entry.getValue())) {
+
+                foundedCard = entry.getKey();
+                System.out.println("Founded card " + foundedCard);
+
+                break;
+            }
+        }
     }
 }

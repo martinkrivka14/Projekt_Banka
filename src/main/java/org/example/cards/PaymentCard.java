@@ -28,6 +28,10 @@ public class PaymentCard {
 
     }
 
+    public String getCardNumber() {
+        return cardNumber;
+    }
+
 
 
 }
