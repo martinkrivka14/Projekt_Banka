@@ -11,7 +11,7 @@ public class PaymentCardService {
 
 
 
-    public void addToBankAccount( PaymentCard paymentCard,BaseBankAccount account,HashMap<String,String> bankVCard){
+    public void addBankAccountToCard( PaymentCard paymentCard,BaseBankAccount account,HashMap<String,String> bankVCard){
 
         bankVCard.put(paymentCard.getCardNumber(),account.getBankAccountNumber());
         System.out.println(bankVCard);

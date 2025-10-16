@@ -111,7 +111,7 @@ public class Main {
 
             System.out.println("Add card to a bank account");
             //adding card to a hash map
-            paymentCardService.addToBankAccount(paymentCard,accounts,bankVCard);
+            paymentCardService.addBankAccountToCard(paymentCard,accounts,bankVCard);
 
             bankAccountService.addCardToBankAccount(accounts,paymentCard1,bankVCard);
 
