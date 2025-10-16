@@ -31,8 +31,10 @@ public class BankAccountService {
         String bankAccountNumber = account.getBankAccountNumber();
 
         String foundedCard =  null;
-        for (Map.Entry<String, String> entry : bankVCard.entrySet()) {
 
+        System.out.println("Bank account number: " + bankAccountNumber + " has those cards");
+
+        for (Map.Entry<String, String> entry : bankVCard.entrySet()) {
             if (bankAccountNumber.equals(entry.getValue())) {
 
                 foundedCard = entry.getKey();
