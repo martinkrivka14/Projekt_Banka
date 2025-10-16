@@ -82,18 +82,18 @@ public class Main {
             School school = new School("Delta", "Pardubice 1", "delta@gmail.com","+420 777 568 562", 200.0F);
             System.out.println(customer.getUuid() + ": " + customer.getFirstName() + ": " + customer.getLastName());
 
-            BankAccountWithPaymentCards accounts = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0,paymentCard);
+            BankAccountWithPaymentCards accounts = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0);
             System.out.println(accounts.getUuid() + ": " + accounts.getBalance());
             //creating a list of a bank account numbers
             bankAccountsList.add(accounts); //adding a bank account number to a list
 
 
-            BankAccountWithPaymentCards BankAccount = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0,paymentCard1);
+            BankAccountWithPaymentCards BankAccount = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0);
             bankAccountsList.add(BankAccount); //adding a bank account number to a list
 
             BaseBankAccount SaveAccount = bankAccountFactory.createSaveBankAccount("u456", customer, 0.0, 0.0F);
 
-            BankAccountWithPaymentCards StudentAccount = bankAccountFactory.createStudentAccount("t325", customer,0.0,0.0F, school,paymentCard2);
+            BankAccountWithPaymentCards StudentAccount = bankAccountFactory.createStudentAccount("t325", customer,0.0,0.0F, school);
             bankAccountsList.add(StudentAccount); //adding a bank account number to a list
 
 
@@ -102,14 +102,19 @@ public class Main {
             System.out.println(SaveAccount.getUuid() + ": " + SaveAccount.getBalance() + ": " + SaveAccount.getBankAccountNumber());
             System.out.println(StudentAccount.getUuid() + ": " + StudentAccount.getBalance() + ": " + StudentAccount.getBankAccountNumber());
 
+            /*
             System.out.println("Payment card info");
-            accounts.getPaymentCard().paymentCardInfo();
+            accounts.getPaymentCard().paymentCardInfo();*/
 
             PaymentCardService paymentCardService = new PaymentCardService();
+            BankAccountService bankAccountService = new BankAccountService();
 
             System.out.println("Add card to a bank account");
             //adding card to a hash map
             paymentCardService.addToBankAccount(paymentCard,accounts,bankVCard);
+
+            bankAccountService.addCardToBankAccount(accounts,paymentCard1,bankVCard);
+
             //found a bank account
             paymentCardService.getBankAccountByPaymentCardNumber(paymentCard,bankVCard);
 

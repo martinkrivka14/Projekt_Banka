@@ -1,6 +1,7 @@
 package org.example.services;
 
 import org.example.accounts.BaseBankAccount;
+import org.example.cards.PaymentCard;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,8 +28,18 @@ public class BankAccountService {
 
     }
 
+    public void addCardToBankAccount(BaseBankAccount account, PaymentCard paymentCard, HashMap<String,String> bankVCard){
+
+        bankVCard.put(paymentCard.getCardNumber(),account.getBankAccountNumber());
+        System.out.println(bankVCard);
+    }
+
     public void allCardsForThisBankAccount(BaseBankAccount account, HashMap<String,String> bankVCard) {
         String bankAccountNumber = account.getBankAccountNumber();
+
+        for(String cardNumber : bankVCard.keySet()){
+
+        }
 
         String foundedCard =  null;
 
@@ -39,8 +50,6 @@ public class BankAccountService {
 
                 foundedCard = entry.getKey();
                 System.out.println("Founded card " + foundedCard);
-
-                break;
             }
         }
     }
