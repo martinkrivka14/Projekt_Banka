@@ -1,45 +1,43 @@
 package org.example.accounts;
 
-import org.example.cards.PaymentCard;
 import org.example.customer.Customer;
-import org.example.factories.PaymentCardFactory;
 
 public class BaseBankAccount {
 
-   private final String uuid;
+    private final String uuid;
 
-   private final String bankAccountNumber;
+    private final String bankAccountNumber;
 
-   private final Customer customer;
+    private final Customer customer;
 
-   private Double balance;
+    private Double balance;
 
-   public BaseBankAccount(String uuid, String bankAccountNumber, Customer customer, Double balance) {
-       this.uuid = uuid;
-       this.bankAccountNumber = bankAccountNumber;
-       this.customer = customer;
-       this.balance = balance;
-   }
+    public BaseBankAccount(String uuid, String bankAccountNumber, Customer customer, Double balance) {
+        this.uuid = uuid;
+        this.bankAccountNumber = bankAccountNumber;
+        this.customer = customer;
+        this.balance = balance;
+    }
 
 
-   public String getUuid() {
-       return uuid;
-   }
+    public String getUuid() {
+        return uuid;
+    }
 
-   public String getBankAccountNumber() {
-       return bankAccountNumber;
-   }
+    public String getBankAccountNumber() {
+        return bankAccountNumber;
+    }
 
-   public Customer getCustomer() {
-       return customer;
-   }
+    public Customer getCustomer() {
+        return customer;
+    }
 
-   public Double getBalance() {
-       return balance;
-   }
+    public Double getBalance() {
+        return balance;
+    }
 
 
     public void setBalance(double balance) {
-       this.balance = balance;
+        this.balance = balance;
     }
 }

@@ -15,7 +15,10 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     implementation("com.google.code.gson:gson:2.13.2")
-    implementation("com.thoughtworks.xstream:xstream:1.4.21")
+    // Základní modul Jackson pro datové vazby
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
+// Modul Jackson pro zpracování XML dat
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.16.1")
 
 }
 

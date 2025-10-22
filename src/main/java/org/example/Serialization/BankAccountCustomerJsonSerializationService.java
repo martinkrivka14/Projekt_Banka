@@ -17,15 +17,6 @@ public class BankAccountCustomerJsonSerializationService implements Serializatio
         }
         BankAccountCustomerSerialization bankAccountCustomerSerialization = bankAccountCustomerSerializationFactory.createBankAccountCustomerSerialization((Customer) obj);
 
-        /*
-          StringBuilder sb = new StringBuilder();
-          sb.append("{");
-          sb.append("\"uuid\":\"" + bankAccountOwnerSerialization.uuid + "\",");
-          sb.append("\"firstName\":\"" + bankAccountOwnerSerialization.firstName + "\",");
-          sb.append("\"lastName\":\"" + bankAccountOwnerSerialization.lastName + "\"");
-          sb.append("}");
-        */
-
         return gson.toJson(bankAccountCustomerSerialization);
     }
 
@@ -34,4 +25,3 @@ public class BankAccountCustomerJsonSerializationService implements Serializatio
         return gson.fromJson(str,  Customer.class);
     }
 }
-

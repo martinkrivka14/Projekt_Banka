@@ -2,21 +2,22 @@ package org.example.accounts;
 
 import org.example.cards.PaymentCard;
 import org.example.customer.Customer;
-import org.example.school.HighSchool;
 import org.example.school.School;
-import org.example.school.University;
+
+import java.util.ArrayList;
 
 public class StudentAccount extends BankAccountWithPaymentCards {
 
     private String schoolType;
     private float interestRate;
     private School school;
-    public StudentAccount(String uuid, String bankAccountNumber, Customer customer, double balance,float interestRate, School school) {
-        super(uuid,bankAccountNumber,customer,balance);
+    public StudentAccount(String uuid, String bankAccountNumber, Customer customer, double balance, float interestRate, School school, ArrayList<PaymentCard> paymentCards) {
+        super(uuid,bankAccountNumber,customer,balance,paymentCards);
         this.interestRate = interestRate;
         this.school = school;
     }
 
+    /*
     public float getInterestRate() {
         if(school instanceof University){
             return 5.0F;
@@ -27,5 +28,5 @@ public class StudentAccount extends BankAccountWithPaymentCards {
         else{
             return 1.0F;
         }
-    }
+    }*/
 }

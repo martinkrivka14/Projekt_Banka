@@ -1,12 +1,9 @@
 package org.example;
 
-
 import org.example.Serialization.BankAccountCustomerJsonSerializationService;
-import org.example.Serialization.BankAccountXmlSerializationService;
-import org.example.accounts.BankAccount;
+import org.example.Serialization.BankAccountCustomerXmlSerializationService;
 import org.example.accounts.BankAccountWithPaymentCards;
 import org.example.accounts.BaseBankAccount;
-import org.example.accounts.SaveAccount;
 import org.example.cards.PaymentCard;
 import org.example.customer.Customer;
 import org.example.factories.BankAccountFactory;
@@ -50,7 +47,7 @@ public class Main {
             PaymentCard paymentCard2 = paymentCardFactory.createPaymentCardFactory(customerName);
             PaymentCard paymentCard3 = paymentCardFactory.createPaymentCardFactory(customerName);
             System.out.println("Info about payment card");
-            paymentCard.paymentCardInfo();
+            paymentCard.getPaymentCardInfo();
 
 
 
@@ -58,7 +55,9 @@ public class Main {
             ArrayList<BankAccountWithPaymentCards> bankAccountsList = new ArrayList<>();
             HashMap<String,String> bankVCard = new HashMap<>(); // creating a map for a link from card to account
 
-
+            ArrayList<PaymentCard> paymentCards = new ArrayList<>();
+            ArrayList<PaymentCard> paymentCardsClassic = new ArrayList<>();
+            ArrayList<PaymentCard> paymentCardsStudent = new ArrayList<>();
 
 
 
@@ -68,7 +67,7 @@ public class Main {
             System.out.println(json);
 
 
-            BankAccountXmlSerializationService serviceXml = new BankAccountXmlSerializationService();
+            BankAccountCustomerXmlSerializationService serviceXml = new BankAccountCustomerXmlSerializationService();
             String Xml = serviceXml.serialization(customer);
             System.out.println("Serialized XML:");
             System.out.println(Xml);
@@ -82,18 +81,18 @@ public class Main {
             School school = new School("Delta", "Pardubice 1", "delta@gmail.com","+420 777 568 562", 200.0F);
             System.out.println(customer.getUuid() + ": " + customer.getFirstName() + ": " + customer.getLastName());
 
-            BankAccountWithPaymentCards accounts = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0);
+            BankAccountWithPaymentCards accounts = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0,paymentCards);
             System.out.println(accounts.getUuid() + ": " + accounts.getBalance());
             //creating a list of a bank account numbers
             bankAccountsList.add(accounts); //adding a bank account number to a list
 
 
-            BankAccountWithPaymentCards BankAccount = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0);
+            BankAccountWithPaymentCards BankAccount = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0,paymentCardsClassic);
             bankAccountsList.add(BankAccount); //adding a bank account number to a list
 
             BaseBankAccount SaveAccount = bankAccountFactory.createSaveBankAccount("u456", customer, 0.0, 0.0F);
 
-            BankAccountWithPaymentCards StudentAccount = bankAccountFactory.createStudentAccount("t325", customer,0.0,0.0F, school);
+            BankAccountWithPaymentCards StudentAccount = bankAccountFactory.createStudentAccount("t325", customer,0.0,0.0F, school,paymentCardsStudent);
             bankAccountsList.add(StudentAccount); //adding a bank account number to a list
 
 
@@ -111,40 +110,44 @@ public class Main {
 
             System.out.println("Add card to a bank account");
             //adding card to a hash map
-            paymentCardService.addBankAccountToCard(paymentCard,accounts,bankVCard);
 
+            paymentCardService.addBankAccountToCard(paymentCard,accounts, bankVCard);
+            //adding card to an account
             bankAccountService.addCardToBankAccount(accounts,paymentCard1,bankVCard);
+            //removing card from account
+            //bankAccountService.removeCardFromBankAccount(accounts,paymentCard,bankVCard);
 
-            //found a bank account
+            //looking for a bank account
             paymentCardService.getBankAccountByPaymentCardNumber(paymentCard,bankVCard);
 
             //getting a bank account and their balance
             paymentCardService.getBankAccountBalanceByPaymentCardNumber(paymentCard,bankVCard,bankAccountsList);
             // adding some money
-            bankAccountServiceFactory.addBalance(accounts, 5000.00);
+            bankAccountService.addBalance(accounts, 5000.00);
             //repeating
-            paymentCardService.getBankAccountBalanceByPaymentCardNumber(paymentCard,bankVCard,bankAccountsList);
+            paymentCardService.getBankAccountBalanceByPaymentCardNumber(paymentCard1,bankVCard,bankAccountsList);
 
 
             //adding money to a card
 
             paymentCardService.addBalanceToBankAccount(paymentCard,bankVCard,bankAccountsList,5000.00);
+            paymentCardService.subtractBalanceFromBankAccount(paymentCard,bankVCard,bankAccountsList,300.00);
 
             paymentCardService.getBankAccountBalanceByPaymentCardNumber(paymentCard,bankVCard,bankAccountsList);
 
 
 
 
-            bankAccountServiceFactory.allCardsForThisBankAccount(accounts,bankVCard);
+            bankAccountService.allCardsForThisBankAccount(accounts,bankVCard);
 
-            bankAccountServiceFactory.addBalance(BankAccount,500.0);
-            System.out.println("Basic bank account balance: " + BankAccount.getUuid() + ": " + BankAccount.getBalance());
+            bankAccountService.addBalance(BankAccount,500.0);
+            System.out.println("Basic bank account balance: " + BankAccount.getBankAccountNumber() + ": " + BankAccount.getBalance());
 
-            bankAccountServiceFactory.subractedBalance(BankAccount,200.0);
-            System.out.println("Basic bank account balance: " +BankAccount.getUuid() + ": " + BankAccount.getBalance() + ": " + BankAccount.getBankAccountNumber());
+            bankAccountService.subractedBalance(BankAccount,200.0);
+            System.out.println("Basic bank account balance: " +BankAccount.getBankAccountNumber() + ": " + BankAccount.getBalance());
 
 
-            bankAccountServiceFactory.addBalance(SaveAccount, 100000000.00); //catch a limit of 10 000 euros
+            bankAccountService.addBalance(SaveAccount, 100000000.00); //catch a limit of 10 000 euros
 
 
         }catch(Exception e){

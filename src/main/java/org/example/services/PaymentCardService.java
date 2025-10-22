@@ -1,5 +1,6 @@
 package org.example.services;
 
+import org.example.Logs.AccountTransactionWithCardLogging;
 import org.example.accounts.BankAccountWithPaymentCards;
 import org.example.accounts.BaseBankAccount;
 import org.example.cards.PaymentCard;
@@ -23,11 +24,13 @@ public class PaymentCardService {
         if(bankAccountNumber != null){
             System.out.println("Bank account number: " + bankAccountNumber);
         } else {
-            System.out.println("Couldn't find bank account number");
+
+            throw new java.util.NoSuchElementException("Couldn't find a bank account");
         }
     }
 
     public void getBankAccountBalanceByPaymentCardNumber(PaymentCard paymentCard, HashMap<String,String> bankVCard, ArrayList<BankAccountWithPaymentCards> bankAccounts){
+
 
         String cardNumber = paymentCard.getCardNumber();
 
@@ -41,15 +44,18 @@ public class PaymentCardService {
                 }
             }
 
-            System.out.println("Error: Bank account with number " + bankAccountNumber + " couldn't be found");
+            throw new java.util.NoSuchElementException("Bank account with number " + bankAccountNumber + " couldn't be found");
         } else {
+            throw new java.util.NoSuchElementException("Card with number  " + cardNumber + "couldn't be found.");
 
-            System.out.println("Error: Card with number  " + cardNumber + "couldn't be found.");
         }
 
     }
 
     public void addBalanceToBankAccount(PaymentCard paymentCard,HashMap<String,String> bankVCard, ArrayList <BankAccountWithPaymentCards> bankAccounts, double money){
+
+        Boolean isAdded = true;
+
         String cardNumber = paymentCard.getCardNumber();
         String bankAccountNumber = bankVCard.get(cardNumber);
 
@@ -58,18 +64,20 @@ public class PaymentCardService {
         if (bankAccountNumber != null) {
             for (BankAccountWithPaymentCards account : bankAccounts) {
                 if (account.getBankAccountNumber().equals(bankAccountNumber)) {
-                    bankAccountService.addBalance(account,money);
+                    bankAccountService.addBalanceWithCard(account,money);
+                    AccountTransactionWithCardLogging logging = new AccountTransactionWithCardLogging(account,paymentCard,isAdded,money);
+                    logging.getLoggingInfo();
                 }
             }
         }else{
-            System.out.println("Error: Bank account with number " + null + " couldn't be found");
+            throw new java.util.NoSuchElementException("Bank account with number " + null + " couldn't be found");
         }
-
-
-
     }
 
-    public void subtractBalanceToBankAccount(PaymentCard paymentCard, HashMap<String,String> bankVCard, ArrayList<BankAccountWithPaymentCards> bankAccounts, double money){
+    public void subtractBalanceFromBankAccount(PaymentCard paymentCard, HashMap<String,String> bankVCard, ArrayList<BankAccountWithPaymentCards> bankAccounts, double money){
+
+        Boolean isAdded = false;
+
         String cardNumber = paymentCard.getCardNumber();
         String bankAccountNumber = bankVCard.get(cardNumber);
 
@@ -78,11 +86,13 @@ public class PaymentCardService {
         if(bankAccountNumber != null){
             for (BankAccountWithPaymentCards account : bankAccounts) {
                 if(account.getBankAccountNumber().equals(bankAccountNumber)){
-                    bankAccountService.subractedBalance(account,money);
+                    bankAccountService.subractedBalanceWithCard(account,money);
+                    AccountTransactionWithCardLogging logging = new AccountTransactionWithCardLogging(account,paymentCard,isAdded,money);
+                    logging.getLoggingInfo();
                 }
             }
         }else{
-            System.out.println("Error: Bank account with number " + null + " couldn't be found");
+            throw new java.util.NoSuchElementException("Bank account with number " + null + " couldn't be found");
         }
 
 

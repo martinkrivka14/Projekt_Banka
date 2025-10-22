@@ -9,15 +9,16 @@ import org.example.customer.Customer;
 import org.example.generator.BankAccountNumberGenerator;
 import org.example.school.School;
 
+import java.util.ArrayList;
 
 
 public class BankAccountFactory {
 
     BankAccountNumberGenerator bankAccountNumberGenerator = new BankAccountNumberGenerator();
 
-    public BankAccount createBaseBankAccount(String uuid, Customer customer, Double balance) {
+    public BankAccount createBaseBankAccount(String uuid, Customer customer, Double balance, ArrayList<PaymentCard> paymentCards) {
         String accountNumber = bankAccountNumberGenerator.generateBankAccountNumber();
-        return new BankAccount(uuid,accountNumber,customer,balance);
+        return new BankAccount(uuid,accountNumber,customer,balance,paymentCards);
     }
 
     public SaveAccount createSaveBankAccount(String uuid, Customer customer, Double balance,float interestRate){
@@ -26,10 +27,10 @@ public class BankAccountFactory {
         return new SaveAccount(uuid,accountNumber,customer,balance,interestRate);
     }
 
-    public StudentAccount createStudentAccount(String uuid, Customer customer, Double balance, float interestRate, School school) {
+    public StudentAccount createStudentAccount(String uuid, Customer customer, Double balance, float interestRate, School school, ArrayList<PaymentCard> paymentCards) {
         String accountNumber = bankAccountNumberGenerator.generateBankAccountNumber();
 
-        return new StudentAccount(uuid,accountNumber,customer,balance,interestRate,school);
+        return new StudentAccount(uuid,accountNumber,customer,balance,interestRate,school, paymentCards);
     }
 
 
