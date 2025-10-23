@@ -3,7 +3,6 @@ import java.time.LocalDate;
 
 public class PaymentCardExpirationGenerator {
 
-
     public String generateExpirationDate(){
 
         StringBuilder stringBuilder = new StringBuilder();

@@ -18,7 +18,7 @@ public class AccountTransactionWithCardLogging {
     }
 
 
-    public void getLoggingInfo(){
+    public void getCardLoggingInfo(){
         System.out.println("-----Logging info-----");
         System.out.println("Bank account number: " + bankAccountWithPaymentCards.getBankAccountNumber());
         System.out.println("Payment card number: " + paymentCard.getCardNumber());

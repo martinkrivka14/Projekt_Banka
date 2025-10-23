@@ -52,6 +52,8 @@ public class Main {
 
 
 
+
+
             ArrayList<BankAccountWithPaymentCards> bankAccountsList = new ArrayList<>();
             HashMap<String,String> bankVCard = new HashMap<>(); // creating a map for a link from card to account
 
@@ -108,6 +110,8 @@ public class Main {
             PaymentCardService paymentCardService = new PaymentCardService();
             BankAccountService bankAccountService = new BankAccountService();
 
+
+
             System.out.println("Add card to a bank account");
             //adding card to a hash map
 
@@ -136,6 +140,8 @@ public class Main {
             paymentCardService.getBankAccountBalanceByPaymentCardNumber(paymentCard,bankVCard,bankAccountsList);
 
 
+            //changing pin
+            paymentCardService.changePin(paymentCard);
 
 
             bankAccountService.allCardsForThisBankAccount(accounts,bankVCard);
@@ -143,7 +149,7 @@ public class Main {
             bankAccountService.addBalance(BankAccount,500.0);
             System.out.println("Basic bank account balance: " + BankAccount.getBankAccountNumber() + ": " + BankAccount.getBalance());
 
-            bankAccountService.subractedBalance(BankAccount,200.0);
+            bankAccountService.subractedBalance(BankAccount,1200.0);
             System.out.println("Basic bank account balance: " +BankAccount.getBankAccountNumber() + ": " + BankAccount.getBalance());
 
 

@@ -8,20 +8,20 @@ public class TransactionValidationService {
     public TransactionValidationService(){
     }
 
-    public void Validation(BaseBankAccount account, Double balance){
+    public void Validation(Double balance){
         if(balance > 10000){
             throw new IllegalArgumentException("Deposing over 10 000 euros has to be reported");
         }
     }
 
-    public void NegativeBalance(BaseBankAccount account, Double balance, String exepction){
+    public void NegativeBalance(BaseBankAccount account, Double balance, String exception){
         if(balance < 0){
-            throw new IllegalArgumentException(exepction);
+            throw new IllegalArgumentException(exception);
         }
     }
 
     public void NoMoney(BaseBankAccount account, Double balance){
-        if(balance < 0){
+        if((account.getBalance() - balance)< 0){
             throw new IllegalArgumentException("Lack of money on your bank account");
         }
     }

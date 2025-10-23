@@ -2,9 +2,7 @@ package org.example.generator;
 
 public class PaymentCardCvvGenerator {
 
-
     public String generatePaymentCardCvv() {
-
 
         StringBuilder stringBuilder = new StringBuilder();
 

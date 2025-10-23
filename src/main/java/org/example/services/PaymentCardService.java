@@ -7,10 +7,34 @@ import org.example.cards.PaymentCard;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class PaymentCardService {
 
+    public void changePin(PaymentCard paymentCard) {
 
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Type current PIN: ");
+        String currentPin = sc.nextLine();
+        Integer PIN = Integer.parseInt(currentPin);
+
+        if(PIN.equals(paymentCard.getCardPin())){
+            System.out.println("Your PIN is correct - now type changed PIN");
+            String changePin = sc.nextLine();
+            Integer PIN2 = Integer.parseInt(changePin);
+
+            if(!PIN2.equals(paymentCard.getCardPin())){
+                System.out.println("You have successfully changed your PIN to " + PIN2);
+                paymentCard.setCardPin(PIN2);
+            }else{
+                System.out.println("Your original PIN is same as your new PIN");
+            }
+        }else{
+            System.out.println("Your PIN is incorrect");
+        }
+
+
+    }
 
     public void addBankAccountToCard( PaymentCard paymentCard,BaseBankAccount account,HashMap<String,String> bankVCard){
 
@@ -61,12 +85,24 @@ public class PaymentCardService {
 
         BankAccountService bankAccountService = new BankAccountService();
 
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Type your PIN: ");
+        String currentPin = sc.nextLine();
+        Integer PIN = Integer.parseInt(currentPin);
+
+        if(PIN.equals(paymentCard.getCardPin())){
+            System.out.println("Your PIN is correct, transaction can be done");
+        }
+        else{
+            throw new java.util.NoSuchElementException("Your pin is incorrect");
+        }
+
         if (bankAccountNumber != null) {
             for (BankAccountWithPaymentCards account : bankAccounts) {
                 if (account.getBankAccountNumber().equals(bankAccountNumber)) {
                     bankAccountService.addBalanceWithCard(account,money);
                     AccountTransactionWithCardLogging logging = new AccountTransactionWithCardLogging(account,paymentCard,isAdded,money);
-                    logging.getLoggingInfo();
+                    logging.getCardLoggingInfo();
                 }
             }
         }else{
@@ -88,20 +124,11 @@ public class PaymentCardService {
                 if(account.getBankAccountNumber().equals(bankAccountNumber)){
                     bankAccountService.subractedBalanceWithCard(account,money);
                     AccountTransactionWithCardLogging logging = new AccountTransactionWithCardLogging(account,paymentCard,isAdded,money);
-                    logging.getLoggingInfo();
+                    logging.getCardLoggingInfo();
                 }
             }
         }else{
             throw new java.util.NoSuchElementException("Bank account with number " + null + " couldn't be found");
         }
-
-
-
-
-
-
     }
-
-
-
 }

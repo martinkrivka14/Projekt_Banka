@@ -16,7 +16,7 @@ public class AccountTransactionLogging {
         this.money = money;
     }
 
-    public void getLoggingInformation() {
+    public void getAccountLoggingInfo() {
         System.out.println("-----Logging info-----");
         System.out.println("Bank account number: " + bankAccount.getBankAccountNumber());
         System.out.println("You " + (isAdded == true ? "added " : "subracted ") +  money + "euros from your account");

@@ -37,4 +37,11 @@ public class PaymentCard {
         return cardNumber;
     }
 
+    public Integer getCardPin() {
+        return PIN;
+    }
+    public void setCardPin(Integer PIN){
+        this.PIN = PIN;
+    }
+
 }

@@ -18,12 +18,12 @@ public class BankAccountService {
 
         String exception = "Cannot add negative balance";
         transactionValidationService.NegativeBalance(account, balance, exception); //checking balance
-        transactionValidationService.Validation(account, balance);  //checking 10 000 euro limit
+        transactionValidationService.Validation(balance);  //checking 10 000 euro limit
         account.setBalance(account.getBalance() + balance); //adding money
 
 
         AccountTransactionLogging logging = new AccountTransactionLogging(account,isAdded,balance);
-        logging.getLoggingInformation();
+        logging.getAccountLoggingInfo();
     }
 
     public void subractedBalance(BaseBankAccount account, Double balance){
@@ -32,20 +32,20 @@ public class BankAccountService {
 
         double subtractBalance = account.getBalance() - balance;
         String  exception = "Cannot withdraw negative balance";
-        transactionValidationService.NoMoney(account, subtractBalance);
+        transactionValidationService.NoMoney(account,balance);
         transactionValidationService.NegativeBalance(account, balance,exception );
 
         account.setBalance(subtractBalance); //subtracting money
 
         AccountTransactionLogging logging = new AccountTransactionLogging(account,isAdded,balance);
-        logging.getLoggingInformation();
+        logging.getAccountLoggingInfo();
     }
 
     public void addBalanceWithCard(BaseBankAccount account, Double balance){
 
         String exception = "Cannot add negative balance";
         transactionValidationService.NegativeBalance(account, balance, exception); //checking balance
-        transactionValidationService.Validation(account, balance);  //checking 10 000 euro limit
+        transactionValidationService.Validation(balance);  //checking 10 000 euro limit
 
         account.setBalance(account.getBalance() + balance); //adding money
     }
@@ -55,8 +55,8 @@ public class BankAccountService {
 
         double subtractBalance = account.getBalance() - balance;
         String  exception = "Cannot withdraw negative balance";
-        transactionValidationService.NoMoney(account, subtractBalance);
-        transactionValidationService.NegativeBalance(account, balance,exception );
+        transactionValidationService.NoMoney(account, balance);
+        transactionValidationService.NegativeBalance(account, balance,exception);
 
         account.setBalance(subtractBalance); //subtracting money
     }
@@ -74,14 +74,7 @@ public class BankAccountService {
             System.out.println("Map of cards and their cards " + bankVCard);
         }
         else{
-            System.out.println("Card not found");
-            /*
-            Scanner sc = new Scanner(System.in);
-            System.out.print("Zadejte text: ");
-
-            String radek = sc.nextLine();
-
-            System.out.println("Zadali jste: " + radek);*/
+            throw new java.util.NoSuchElementException("No card found");
         }
 
     }
@@ -100,7 +93,7 @@ public class BankAccountService {
                 System.out.println("Founded card " + foundedCard);
             }
             else{
-                System.out.println("Cards not found");
+                throw new java.util.NoSuchElementException("No card found");
             }
         }
     }
