@@ -1,5 +1,6 @@
 package org.example.factories;
 
+import jakarta.inject.Inject;
 import org.example.cards.PaymentCard;
 import org.example.generator.PaymentCardCvvGenerator;
 import org.example.generator.PaymentCardExpirationGenerator;
@@ -8,10 +9,24 @@ import org.example.generator.PaymentCardPinGenerator;
 
 public class PaymentCardFactory {
 
-    PaymentCardNumberGenerator paymentCardNumberGenerator = new PaymentCardNumberGenerator();
-    PaymentCardCvvGenerator paymentCardCvvGenerator = new PaymentCardCvvGenerator();
-    PaymentCardExpirationGenerator paymentCardExpirationGenerator = new PaymentCardExpirationGenerator();
-    PaymentCardPinGenerator paymentCardPinGenerator = new PaymentCardPinGenerator();
+    private PaymentCardNumberGenerator paymentCardNumberGenerator;
+    private PaymentCardCvvGenerator paymentCardCvvGenerator;
+    private PaymentCardExpirationGenerator paymentCardExpirationGenerator;
+    private PaymentCardPinGenerator paymentCardPinGenerator;
+
+
+    @Inject
+    public PaymentCardFactory(PaymentCardNumberGenerator paymentCardNumberGenerator,
+                              PaymentCardCvvGenerator paymentCardCvvGenerator,
+                              PaymentCardExpirationGenerator paymentCardExpirationGenerator,
+                              PaymentCardPinGenerator paymentCardPinGenerator){
+        this.paymentCardNumberGenerator = paymentCardNumberGenerator;
+        this.paymentCardCvvGenerator = paymentCardCvvGenerator;
+        this.paymentCardExpirationGenerator = paymentCardExpirationGenerator;
+        this.paymentCardPinGenerator = paymentCardPinGenerator;
+    }
+
+
 
     public PaymentCard createPaymentCardFactory(String customer) {
 

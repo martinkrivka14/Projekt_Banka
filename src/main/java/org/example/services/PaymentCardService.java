@@ -1,15 +1,21 @@
 package org.example.services;
 
+import jakarta.inject.Inject;
 import org.example.Logs.AccountTransactionWithCardLogging;
 import org.example.accounts.BankAccountWithPaymentCards;
 import org.example.accounts.BaseBankAccount;
 import org.example.cards.PaymentCard;
+import org.example.generator.PaymentCardCvvGenerator;
+import org.example.generator.PaymentCardExpirationGenerator;
+import org.example.generator.PaymentCardNumberGenerator;
+import org.example.generator.PaymentCardPinGenerator;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
 public class PaymentCardService {
+
 
     public void changePin(PaymentCard paymentCard) {
 
@@ -83,8 +89,6 @@ public class PaymentCardService {
         String cardNumber = paymentCard.getCardNumber();
         String bankAccountNumber = bankVCard.get(cardNumber);
 
-        BankAccountService bankAccountService = new BankAccountService();
-
         Scanner sc = new Scanner(System.in);
         System.out.print("Type your PIN: ");
         String currentPin = sc.nextLine();
@@ -100,6 +104,7 @@ public class PaymentCardService {
         if (bankAccountNumber != null) {
             for (BankAccountWithPaymentCards account : bankAccounts) {
                 if (account.getBankAccountNumber().equals(bankAccountNumber)) {
+                    BankAccountService bankAccountService = new BankAccountService();
                     bankAccountService.addBalanceWithCard(account,money);
                     AccountTransactionWithCardLogging logging = new AccountTransactionWithCardLogging(account,paymentCard,isAdded,money);
                     logging.getCardLoggingInfo();
@@ -117,11 +122,22 @@ public class PaymentCardService {
         String cardNumber = paymentCard.getCardNumber();
         String bankAccountNumber = bankVCard.get(cardNumber);
 
-        BankAccountService bankAccountService = new BankAccountService();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Type your PIN: ");
+        String currentPin = sc.nextLine();
+        Integer PIN = Integer.parseInt(currentPin);
+
+        if(PIN.equals(paymentCard.getCardPin())){
+            System.out.println("Your PIN is correct, transaction can be done");
+        }
+        else{
+            throw new java.util.NoSuchElementException("Your pin is incorrect");
+        }
 
         if(bankAccountNumber != null){
             for (BankAccountWithPaymentCards account : bankAccounts) {
                 if(account.getBankAccountNumber().equals(bankAccountNumber)){
+                    BankAccountService bankAccountService = new BankAccountService();
                     bankAccountService.subractedBalanceWithCard(account,money);
                     AccountTransactionWithCardLogging logging = new AccountTransactionWithCardLogging(account,paymentCard,isAdded,money);
                     logging.getCardLoggingInfo();

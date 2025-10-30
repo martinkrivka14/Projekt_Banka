@@ -1,5 +1,6 @@
 package org.example.factories;
 
+import jakarta.inject.Inject;
 import org.example.accounts.BankAccount;
 import org.example.accounts.BaseBankAccount;
 import org.example.accounts.SaveAccount;
@@ -14,7 +15,12 @@ import java.util.ArrayList;
 
 public class BankAccountFactory {
 
-    BankAccountNumberGenerator bankAccountNumberGenerator = new BankAccountNumberGenerator();
+    private final BankAccountNumberGenerator bankAccountNumberGenerator;
+
+    @Inject
+    public BankAccountFactory(BankAccountNumberGenerator bankAccountNumberGenerator){
+        this.bankAccountNumberGenerator = bankAccountNumberGenerator;
+    }
 
     public BankAccount createBaseBankAccount(String uuid, Customer customer, Double balance, ArrayList<PaymentCard> paymentCards) {
         String accountNumber = bankAccountNumberGenerator.generateBankAccountNumber();
@@ -32,6 +38,5 @@ public class BankAccountFactory {
 
         return new StudentAccount(uuid,accountNumber,customer,balance,interestRate,school, paymentCards);
     }
-
 
 }

@@ -19,6 +19,8 @@ dependencies {
     implementation("com.fasterxml.jackson.core:jackson-databind:2.16.1")
 // Modul Jackson pro zpracování XML dat
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.16.1")
+    // https://mvnrepository.com/artifact/com.google.inject/guice
+    implementation("com.google.inject:guice:7.0.0")
 
 }
 
