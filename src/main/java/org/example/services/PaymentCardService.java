@@ -59,7 +59,7 @@ public class PaymentCardService {
         }
     }
 
-    public void getBankAccountBalanceByPaymentCardNumber(PaymentCard paymentCard, HashMap<String,String> bankVCard, ArrayList<BankAccountWithPaymentCards> bankAccounts){
+    public void getBankAccountBalanceByPaymentCardNumber(PaymentCard paymentCard, HashMap<String,String> bankVCard, ArrayList<BaseBankAccount> bankAccounts){
 
 
         String cardNumber = paymentCard.getCardNumber();
@@ -67,7 +67,7 @@ public class PaymentCardService {
         String bankAccountNumber = bankVCard.get(cardNumber);
 
         if (bankAccountNumber != null) {
-            for (BankAccountWithPaymentCards account : bankAccounts) {
+            for (BaseBankAccount account : bankAccounts) {
                 if (account.getBankAccountNumber().equals(bankAccountNumber)) {
                     System.out.println("Money on the bank account  " + bankAccountNumber + " with card " + paymentCard.getCardNumber() +"is : " + account.getBalance());
                     return;
@@ -82,7 +82,7 @@ public class PaymentCardService {
 
     }
 
-    public void addBalanceToBankAccount(PaymentCard paymentCard,HashMap<String,String> bankVCard, ArrayList <BankAccountWithPaymentCards> bankAccounts, double money){
+    public void addBalanceToBankAccount(PaymentCard paymentCard,HashMap<String,String> bankVCard, ArrayList <BaseBankAccount> bankAccounts, double money){
 
         Boolean isAdded = true;
 
@@ -102,7 +102,7 @@ public class PaymentCardService {
         }
 
         if (bankAccountNumber != null) {
-            for (BankAccountWithPaymentCards account : bankAccounts) {
+            for (BaseBankAccount account : bankAccounts) {
                 if (account.getBankAccountNumber().equals(bankAccountNumber)) {
                     BankAccountService bankAccountService = new BankAccountService();
                     bankAccountService.addBalanceWithCard(account,money);
@@ -115,7 +115,7 @@ public class PaymentCardService {
         }
     }
 
-    public void subtractBalanceFromBankAccount(PaymentCard paymentCard, HashMap<String,String> bankVCard, ArrayList<BankAccountWithPaymentCards> bankAccounts, double money){
+    public void subtractBalanceFromBankAccount(PaymentCard paymentCard, HashMap<String,String> bankVCard, ArrayList<BaseBankAccount> bankAccounts, double money){
 
         Boolean isAdded = false;
 
@@ -135,7 +135,7 @@ public class PaymentCardService {
         }
 
         if(bankAccountNumber != null){
-            for (BankAccountWithPaymentCards account : bankAccounts) {
+            for (BaseBankAccount account : bankAccounts) {
                 if(account.getBankAccountNumber().equals(bankAccountNumber)){
                     BankAccountService bankAccountService = new BankAccountService();
                     bankAccountService.subractedBalanceWithCard(account,money);

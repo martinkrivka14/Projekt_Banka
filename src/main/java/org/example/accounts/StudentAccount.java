@@ -11,9 +11,8 @@ public class StudentAccount extends BankAccountWithPaymentCards {
     private String schoolType;
     private float interestRate;
     private School school;
-    public StudentAccount(String uuid, String bankAccountNumber, Customer customer, double balance, float interestRate, School school, ArrayList<PaymentCard> paymentCards) {
+    public StudentAccount(String uuid, String bankAccountNumber, Customer customer, double balance, School school, ArrayList<PaymentCard> paymentCards) {
         super(uuid,bankAccountNumber,customer,balance,paymentCards);
-        this.interestRate = interestRate;
         this.school = school;
     }
 

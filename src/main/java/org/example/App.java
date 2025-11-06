@@ -6,17 +6,26 @@ import org.example.Serialization.BankAccountCustomerJsonSerializationService;
 import org.example.Serialization.BankAccountCustomerXmlSerializationService;
 import org.example.accounts.BankAccountWithPaymentCards;
 import org.example.accounts.BaseBankAccount;
+import org.example.accounts.SaveAccount;
+import org.example.accounts.StudentAccount;
 import org.example.cards.PaymentCard;
 import org.example.customer.Customer;
+import org.example.facades.InterestRunnerFacade;
 import org.example.factories.BankAccountFactory;
 import org.example.factories.CustomerFactory;
 import org.example.factories.PaymentCardFactory;
 import org.example.school.School;
 import org.example.services.BankAccountService;
+import org.example.services.InterestCronService;
 import org.example.services.PaymentCardService;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class App {
 
@@ -37,6 +46,14 @@ public class App {
     @Inject
     private PaymentCardService paymentCardService;
 
+    @Inject
+    private InterestRunnerFacade  interestRunnerFacade;
+
+    @Inject
+    private InterestCronService interestCronService;
+
+    private final ArrayList<BaseBankAccount> accounts = new ArrayList<>();
+
 
 
     public void run() {
@@ -50,13 +67,11 @@ public class App {
             String customerName = "Frantisek Jakubec";
             PaymentCard paymentCard = paymentCardFactory.createPaymentCardFactory(customerName);
             PaymentCard paymentCard1 = paymentCardFactory.createPaymentCardFactory(customerName);
-            PaymentCard paymentCard2 = paymentCardFactory.createPaymentCardFactory(customerName);
-            PaymentCard paymentCard3 = paymentCardFactory.createPaymentCardFactory(customerName);
             System.out.println("Info about payment card");
             paymentCard.getPaymentCardInfo();
 
 
-            ArrayList<BankAccountWithPaymentCards> bankAccountsList = new ArrayList<>();
+            ArrayList<BaseBankAccount> bankAccountsList = new ArrayList<>();
             HashMap<String,String> bankVCard = new HashMap<>(); // creating a map for a link from card to account
 
             ArrayList<PaymentCard> paymentCards = new ArrayList<>();
@@ -83,18 +98,19 @@ public class App {
             School school = new School("Delta", "Pardubice 1", "delta@gmail.com","+420 777 568 562", 200.0F);
             System.out.println(customer.getUuid() + ": " + customer.getFirstName() + ": " + customer.getLastName());
 
-            BankAccountWithPaymentCards accounts = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0,paymentCards);
+            BaseBankAccount accounts = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0,paymentCards);
             System.out.println(accounts.getUuid() + ": " + accounts.getBalance());
             //creating a list of a bank account numbers
             bankAccountsList.add(accounts); //adding a bank account number to a list
 
 
-            BankAccountWithPaymentCards BankAccount = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0,paymentCardsClassic);
+            BaseBankAccount BankAccount = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0,paymentCardsClassic);
             bankAccountsList.add(BankAccount); //adding a bank account number to a list
 
-            BaseBankAccount SaveAccount = bankAccountFactory.createSaveBankAccount("u456", customer, 0.0, 0.0F);
+            BaseBankAccount SaveAccount = bankAccountFactory.createSaveBankAccount("u456", customer, 0.0, 5.0F, LocalDate.now(), LocalDateTime.now());
+            bankAccountsList.add(SaveAccount);
 
-            BankAccountWithPaymentCards StudentAccount = bankAccountFactory.createStudentAccount("t325", customer,0.0,0.0F, school,paymentCardsStudent);
+            StudentAccount StudentAccount = bankAccountFactory.createStudentAccount("t325", customer,0.0, school,paymentCardsStudent);
             bankAccountsList.add(StudentAccount); //adding a bank account number to a list
 
 
@@ -145,12 +161,31 @@ public class App {
             bankAccountService.addBalance(BankAccount,500.0);
             System.out.println("Basic bank account balance: " + BankAccount.getBankAccountNumber() + ": " + BankAccount.getBalance());
 
+            /*
             bankAccountService.subractedBalance(BankAccount,1200.0);
             System.out.println("Basic bank account balance: " +BankAccount.getBankAccountNumber() + ": " + BankAccount.getBalance());
 
 
             bankAccountService.addBalance(SaveAccount, 100000000.00); //catch a limit of 10 000 euros
+            */
 
+
+            //depositing money to save account
+            bankAccountService.addBalance(SaveAccount,1000.0);
+
+
+
+            //starting Cron Service for rates
+            interestCronService.start(bankAccountsList);
+
+
+            Scanner scanner = new Scanner(System.in);
+            scanner.nextLine(); // waiting for enter to end cron, only for testing
+            interestCronService.stop();
+            scanner.close();
+
+            //checking money from interests
+            System.out.println(SaveAccount.getBalance());
 
         } catch(Exception e) {
             System.out.println(e.getMessage());
