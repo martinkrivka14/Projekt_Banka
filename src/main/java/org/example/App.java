@@ -2,6 +2,7 @@ package org.example;
 
 
 import jakarta.inject.Inject;
+import org.example.History.AccountTransaction;
 import org.example.Serialization.BankAccountCustomerJsonSerializationService;
 import org.example.Serialization.BankAccountCustomerXmlSerializationService;
 import org.example.accounts.BankAccountWithPaymentCards;
@@ -18,6 +19,7 @@ import org.example.school.School;
 import org.example.services.BankAccountService;
 import org.example.services.InterestCronService;
 import org.example.services.PaymentCardService;
+import org.example.services.TransactionCronService;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -52,12 +54,17 @@ public class App {
     @Inject
     private InterestCronService interestCronService;
 
+    @Inject
+    TransactionCronService  transactionCronService;
+
     private final ArrayList<BaseBankAccount> accounts = new ArrayList<>();
 
 
 
     public void run() {
         try {
+
+
 
             //implementing customer trough factory
             Customer customer = customerFactory.createCustomer("c123","Martin","Krivka");
@@ -77,6 +84,13 @@ public class App {
             ArrayList<PaymentCard> paymentCards = new ArrayList<>();
             ArrayList<PaymentCard> paymentCardsClassic = new ArrayList<>();
             ArrayList<PaymentCard> paymentCardsStudent = new ArrayList<>();
+
+            //starting crons
+            interestCronService.start(bankAccountsList);
+            transactionCronService.start(bankAccountsList);
+
+
+            ArrayList<AccountTransaction> accountTransactions = new ArrayList<>();
 
             BankAccountCustomerJsonSerializationService serviceJson = new BankAccountCustomerJsonSerializationService();
             String json = serviceJson.serialization(customer);
@@ -107,7 +121,7 @@ public class App {
             BaseBankAccount BankAccount = bankAccountFactory.createBaseBankAccount("u123", customer, 0.0,paymentCardsClassic);
             bankAccountsList.add(BankAccount); //adding a bank account number to a list
 
-            BaseBankAccount SaveAccount = bankAccountFactory.createSaveBankAccount("u456", customer, 0.0, 5.0F, LocalDate.now(), LocalDateTime.now());
+            BaseBankAccount SaveAccount = bankAccountFactory.createSaveBankAccount("u456", customer, 0.0, 5.0F, LocalDate.now(), LocalDateTime.now(),accountTransactions);
             bankAccountsList.add(SaveAccount);
 
             StudentAccount StudentAccount = bankAccountFactory.createStudentAccount("t325", customer,0.0, school,paymentCardsStudent);
@@ -172,17 +186,20 @@ public class App {
 
             //depositing money to save account
             bankAccountService.addBalance(SaveAccount,1000.0);
+            bankAccountService.addBalance(SaveAccount,2500.0);
+            bankAccountService.addBalance(SaveAccount,5200.0);
+            bankAccountService.addBalance(SaveAccount,8888.0);
+            bankAccountService.addBalance(SaveAccount,9999.0);
+            bankAccountService.addBalance(SaveAccount,2413.0);
 
 
 
-            //starting Cron Service for rates
-            interestCronService.start(bankAccountsList);
-
-
-            Scanner scanner = new Scanner(System.in);
-            scanner.nextLine(); // waiting for enter to end cron, only for testing
+            //ending crons
             interestCronService.stop();
-            scanner.close();
+
+            transactionCronService.stop();
+
+
 
             //checking money from interests
             System.out.println(SaveAccount.getBalance());

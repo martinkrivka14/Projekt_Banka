@@ -1,6 +1,7 @@
 package org.example.factories;
 
 import jakarta.inject.Inject;
+import org.example.History.AccountTransaction;
 import org.example.accounts.BankAccount;
 import org.example.accounts.BaseBankAccount;
 import org.example.accounts.SaveAccount;
@@ -29,10 +30,10 @@ public class BankAccountFactory {
         return new BankAccount(uuid,accountNumber,customer,balance,paymentCards);
     }
 
-    public SaveAccount createSaveBankAccount(String uuid, Customer customer, Double balance, float interestRate, LocalDate openingDate, LocalDateTime lastInterestDate){
+    public SaveAccount createSaveBankAccount(String uuid, Customer customer, Double balance, float interestRate, LocalDate openingDate, LocalDateTime lastInterestDate, ArrayList<AccountTransaction> accountTransactions) {
         String accountNumber = bankAccountNumberGenerator.generateBankAccountNumber();
 
-        return new SaveAccount(uuid,accountNumber,customer,balance,interestRate, openingDate,lastInterestDate);
+        return new SaveAccount(uuid,accountNumber,customer,balance,interestRate, openingDate,lastInterestDate, accountTransactions);
     }
 
     public StudentAccount createStudentAccount(String uuid, Customer customer, Double balance, School school, ArrayList<PaymentCard> paymentCards) {

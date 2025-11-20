@@ -19,7 +19,7 @@ public class AccountTransactionLogging {
     public void getAccountLoggingInfo() {
         System.out.println("-----Logging info-----");
         System.out.println("Bank account number: " + bankAccount.getBankAccountNumber());
-        System.out.println("You " + (isAdded == true ? "added " : "subracted ") +  money + "euros from your account");
+        System.out.println("You " + (isAdded == true ? "added " : "subracted ") +  money + " euros from your account");
         System.out.println("Transaction was done from your account");
         System.out.println("Remaining balance on your account is " + bankAccount.getBalance());
         System.out.println("-----------------------");

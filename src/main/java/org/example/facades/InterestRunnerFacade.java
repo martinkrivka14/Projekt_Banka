@@ -5,6 +5,7 @@ import jakarta.inject.Inject;
 import org.example.accounts.BankAccountWithPaymentCards;
 import org.example.accounts.BaseBankAccount;
 import org.example.accounts.SaveAccount;
+import org.example.services.BankAccountService;
 import org.example.services.InterestCalculatorService;
 
 import java.time.LocalDate;
@@ -16,6 +17,8 @@ public class InterestRunnerFacade {
 
     @Inject
     private InterestCalculatorService interestCalculatorService;
+    @Inject
+    private BankAccountService bankAccountService;
 
     private ArrayList<SaveAccount> saveAccounts = new ArrayList<>();
 
@@ -40,15 +43,14 @@ public class InterestRunnerFacade {
 
             if (saveAccount.getNextInterestDate().isBefore(now)) {
                 double interestAmount = interestCalculatorService.calculateInterest(saveAccount);
-                double newBalance = saveAccount.getBalance() + interestAmount;
-                saveAccount.setBalance(newBalance);
+                bankAccountService.addBalance(saveAccount, interestAmount);
 
                 saveAccount.setLastInterestDate(saveAccount.getNextInterestDate());
                 saveAccount.setNextInterestDate(saveAccount.getLastInterestDate().plusMinutes(1));
 
 
-                System.out.println("Interest " + interestAmount + " euros was adding to account " + saveAccount.getBankAccountNumber() +
-                        " new balance is: " + newBalance + " next interest is at: " + saveAccount.getNextInterestDate());
+                System.out.println("Interest " + interestAmount + " euros was added to account " + saveAccount.getBankAccountNumber() +
+                        " new balance is: " + saveAccount.getBalance() + " next interest is at: " + saveAccount.getNextInterestDate());
             }else{
                 System.out.println("No account to process interest");
             }

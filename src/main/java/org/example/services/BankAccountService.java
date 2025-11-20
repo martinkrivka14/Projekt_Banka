@@ -1,11 +1,17 @@
 package org.example.services;
 
+import org.example.History.AccountTransaction;
 import org.example.Logs.AccountTransactionLogging;
+import org.example.Logs.AccountTransactionWithCardLogging;
 import org.example.accounts.BaseBankAccount;
+import org.example.accounts.SaveAccount;
 import org.example.cards.PaymentCard;
+import org.example.factories.AccountTransactionFactory;
 import org.example.factories.BankAccountFactory;
 import org.example.generator.BankAccountNumberGenerator;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
@@ -27,6 +33,15 @@ public class BankAccountService {
 
         AccountTransactionLogging logging = new AccountTransactionLogging(account,isAdded,balance);
         logging.getAccountLoggingInfo();
+
+        LocalDateTime now = LocalDateTime.now();
+        AccountTransactionFactory accountTransactionFactory = new AccountTransactionFactory();
+        AccountTransaction transaction = accountTransactionFactory.createAccountTransaction(now, true, true, balance,true,false);
+        if(account instanceof SaveAccount saveAccount){
+            ArrayList<AccountTransaction> accountTransactions =  saveAccount.getAccountTransactions();
+            accountTransactions.add(transaction);
+            saveAccount.setAccountTransactions(accountTransactions);
+        }
     }
 
     public void subractedBalance(BaseBankAccount account, Double balance){
@@ -42,6 +57,16 @@ public class BankAccountService {
 
         AccountTransactionLogging logging = new AccountTransactionLogging(account,isAdded,balance);
         logging.getAccountLoggingInfo();
+
+        LocalDateTime now = LocalDateTime.now();
+        AccountTransactionFactory accountTransactionFactory = new AccountTransactionFactory();
+        AccountTransaction transaction = accountTransactionFactory.createAccountTransaction(now, false, true, balance,true,false);
+        if(account instanceof SaveAccount saveAccount){
+            ArrayList<AccountTransaction> accountTransactions =  saveAccount.getAccountTransactions();
+            accountTransactions.add(transaction);
+            saveAccount.setAccountTransactions(accountTransactions);
+        }
+
     }
 
     public void addBalanceWithCard(BaseBankAccount account, Double balance){
@@ -51,6 +76,15 @@ public class BankAccountService {
         transactionValidationService.Validation(balance);  //checking 10 000 euro limit
 
         account.setBalance(account.getBalance() + balance); //adding money
+
+        LocalDateTime now = LocalDateTime.now();
+        AccountTransactionFactory accountTransactionFactory = new AccountTransactionFactory();
+        AccountTransaction transaction = accountTransactionFactory.createAccountTransaction(now, true, false, balance,true,false);
+        if(account instanceof SaveAccount saveAccount){
+            ArrayList<AccountTransaction> accountTransactions =  saveAccount.getAccountTransactions();
+            accountTransactions.add(transaction);
+            saveAccount.setAccountTransactions(accountTransactions);
+        }
     }
 
 
@@ -62,6 +96,16 @@ public class BankAccountService {
         transactionValidationService.NegativeBalance(account, balance,exception);
 
         account.setBalance(subtractBalance); //subtracting money
+
+        LocalDateTime now = LocalDateTime.now();
+        AccountTransactionFactory accountTransactionFactory = new AccountTransactionFactory();
+        AccountTransaction transaction = accountTransactionFactory.createAccountTransaction(now, false, false, balance,true,false);
+        if(account instanceof SaveAccount saveAccount){
+            ArrayList<AccountTransaction> accountTransactions =  saveAccount.getAccountTransactions();
+            accountTransactions.add(transaction);
+            saveAccount.setAccountTransactions(accountTransactions);
+        }
+
     }
 
     public void addCardToBankAccount(BaseBankAccount account, PaymentCard paymentCard, HashMap<String,String> bankVCard){

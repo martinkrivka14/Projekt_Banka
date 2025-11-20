@@ -37,7 +37,7 @@ public class InterestCronService {
 
     public void stop() {
         scheduler.shutdownNow();
-        System.out.println("InterestCronService stopped.");
+
     }
 
 
