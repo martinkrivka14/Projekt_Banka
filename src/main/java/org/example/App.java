@@ -15,6 +15,9 @@ import org.example.facades.InterestRunnerFacade;
 import org.example.factories.BankAccountFactory;
 import org.example.factories.CustomerFactory;
 import org.example.factories.PaymentCardFactory;
+import org.example.observers.Observer;
+import org.example.observers.Validation;
+import org.example.observers.ValidationObserver;
 import org.example.school.School;
 import org.example.services.BankAccountService;
 import org.example.services.InterestCronService;
@@ -56,6 +59,7 @@ public class App {
 
     @Inject
     TransactionCronService  transactionCronService;
+
 
     private final ArrayList<BaseBankAccount> accounts = new ArrayList<>();
 
@@ -191,25 +195,30 @@ public class App {
             bankAccountService.addBalance(SaveAccount,2413.0);
 
 
+            Validation validation = new Validation();
+            Observer obj = new ValidationObserver("obj");
+
+            validation.registerObserver(obj);
+            obj.setSubject(validation);
+            obj.update();
+            validation.postMessage("Ahoj");
+            obj.update();
+
             //starting crons
             interestCronService.start(bankAccountsList);
             transactionCronService.start(bankAccountsList);
 
-
             paymentCardService.getBankAccountBalanceByPaymentCardNumber(paymentCard,bankVCard,bankAccountsList);
             paymentCardService.changePin(paymentCard);
-
-
 
             //ending crons
             interestCronService.stop();
 
             transactionCronService.stop();
 
-
-
             //checking money from interests
             System.out.println(SaveAccount.getBalance());
+
 
         } catch(Exception e) {
             System.out.println(e.getMessage());
