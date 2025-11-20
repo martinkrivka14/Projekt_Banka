@@ -35,8 +35,8 @@ public class TransactionHistoryFacade {
             if(bankAccount instanceof SaveAccount saveAccount){
                 ArrayList<AccountTransaction> accountTransactions =  saveAccount.getAccountTransactions();
                 for(AccountTransaction accountTransaction : accountTransactions){
-                    allData.append(saveAccount.getBankAccountNumber());
                     if(accountTransaction.getWasDone() == false){
+                        allData.append(saveAccount.getBankAccountNumber());
                         allData.append(jsonSerialization.serialization(accountTransaction));
                     }
                     accountTransaction.setWasDone(true);

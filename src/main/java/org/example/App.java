@@ -85,9 +85,7 @@ public class App {
             ArrayList<PaymentCard> paymentCardsClassic = new ArrayList<>();
             ArrayList<PaymentCard> paymentCardsStudent = new ArrayList<>();
 
-            //starting crons
-            interestCronService.start(bankAccountsList);
-            transactionCronService.start(bankAccountsList);
+
 
 
             ArrayList<AccountTransaction> accountTransactions = new ArrayList<>();
@@ -191,6 +189,15 @@ public class App {
             bankAccountService.addBalance(SaveAccount,8888.0);
             bankAccountService.addBalance(SaveAccount,9999.0);
             bankAccountService.addBalance(SaveAccount,2413.0);
+
+
+            //starting crons
+            interestCronService.start(bankAccountsList);
+            transactionCronService.start(bankAccountsList);
+
+
+            paymentCardService.getBankAccountBalanceByPaymentCardNumber(paymentCard,bankVCard,bankAccountsList);
+            paymentCardService.changePin(paymentCard);
 
 
 
